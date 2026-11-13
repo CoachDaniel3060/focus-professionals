@@ -1013,7 +1013,101 @@
 
   </footer>
 
+<!-- FOCUS PROFESSIONALS FREE CHAT ASSISTANT -->
 
+<div class="fp-chat-widget">
+
+  <button
+    class="fp-chat-toggle"
+    id="fpChatToggle"
+    type="button"
+    aria-label="Open FOCUS AI Assistant"
+    aria-expanded="false"
+  >
+    <span>✦</span>
+    <span class="fp-chat-toggle-text">Chat with us</span>
+  </button>
+
+  <section
+    class="fp-chat-window"
+    id="fpChatWindow"
+    aria-label="FOCUS AI Assistant"
+    aria-hidden="true"
+  >
+
+    <div class="fp-chat-header">
+
+      <div>
+        <strong>FOCUS AI ASSISTANT</strong>
+        <p>FOCUS PROFESSIONALS Support</p>
+      </div>
+
+      <button
+        type="button"
+        id="fpChatClose"
+        aria-label="Close chat"
+      >✕</button>
+
+    </div>
+
+    <div class="fp-chat-messages" id="fpChatMessages">
+
+      <div class="fp-chat-message assistant">
+        Welcome to FOCUS PROFESSIONALS!
+
+        I'm your virtual business assistant. I can help you explore our services, packages and project enquiries.
+
+        What would you like help with today?
+      </div>
+
+    </div>
+
+    <div class="fp-chat-options" id="fpChatOptions">
+
+      <button type="button" data-question="services">
+        Our services
+      </button>
+
+      <button type="button" data-question="packages">
+        Our packages
+      </button>
+
+      <button type="button" data-question="quotation">
+        Request a quotation
+      </button>
+
+      <button type="button" data-question="contact">
+        Contact our team
+      </button>
+
+    </div>
+
+    <form class="fp-chat-form" id="fpChatForm">
+
+      <input
+        type="text"
+        id="fpChatInput"
+        placeholder="Type your question..."
+        autocomplete="off"
+        aria-label="Type your question"
+        required
+      >
+
+      <button type="submit" aria-label="Send message">
+        ➤
+      </button>
+
+    </form>
+
+    <div class="fp-chat-footer">
+      POWERED BY FOCUS PROFESSIONALS
+    </div>
+
+  </section>
+
+</div>
+
+<!-- END FOCUS PROFESSIONALS CHAT ASSISTANT -->
   <script src="script.js"></script>
 
 </body>
