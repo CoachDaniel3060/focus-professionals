@@ -1,7 +1,7 @@
 "use strict";
 
 /* ==========================================
-   FOCUS PROFESSIONALS
+   FOCUS PROFESSIONALS 2.0
    WEBSITE INTERACTIONS
    ========================================== */
 
@@ -15,6 +15,21 @@ const WHATSAPP_NUMBER = "233204402577";
 
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.getElementById("navLinks");
+
+function closeMobileMenu() {
+
+  if (!navLinks || !menuToggle) return;
+
+  navLinks.classList.remove("active");
+
+  menuToggle.textContent = "☰";
+
+  menuToggle.setAttribute("aria-expanded", "false");
+
+  menuToggle.setAttribute("aria-label", "Open navigation");
+
+}
+
 
 if (menuToggle && navLinks) {
 
@@ -37,24 +52,9 @@ if (menuToggle && navLinks) {
   });
 
 
-  // Close mobile menu after clicking a navigation link
-
   navLinks.querySelectorAll("a").forEach(function (link) {
 
-    link.addEventListener("click", function () {
-
-      navLinks.classList.remove("active");
-
-      menuToggle.textContent = "☰";
-
-      menuToggle.setAttribute("aria-expanded", "false");
-
-      menuToggle.setAttribute(
-        "aria-label",
-        "Open navigation"
-      );
-
-    });
+    link.addEventListener("click", closeMobileMenu);
 
   });
 
@@ -68,12 +68,42 @@ if (menuToggle && navLinks) {
 const currentYear = document.getElementById("currentYear");
 
 if (currentYear) {
+
   currentYear.textContent = new Date().getFullYear();
+
 }
 
 
 // ==========================================
-// WHATSAPP CONTACT FORM
+// PACKAGE ENQUIRY SHORTCUTS
+// ==========================================
+
+const packageButtons = document.querySelectorAll("[data-package]");
+
+packageButtons.forEach(function (button) {
+
+  button.addEventListener("click", function () {
+
+    const packageName = button.getAttribute("data-package");
+
+    const messageField = document.getElementById("contactMessage");
+
+    if (messageField && packageName && !messageField.value.trim()) {
+
+      messageField.value =
+        "I am interested in the " +
+        packageName +
+        " package. Please provide more information.";
+
+    }
+
+  });
+
+});
+
+
+// ==========================================
+// WHATSAPP PROJECT ENQUIRY FORM
 // ==========================================
 
 const contactForm = document.getElementById("contactForm");
@@ -83,6 +113,9 @@ if (contactForm) {
   contactForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
+
+
+    // REQUIRED FIELDS
 
     const name = document
       .getElementById("contactName")
@@ -104,20 +137,44 @@ if (contactForm) {
       .trim();
 
 
-    // Validate required information
+    // OPTIONAL FIELDS
+
+    const budgetField = document.getElementById("contactBudget");
+
+    const timelineField = document.getElementById("contactTimeline");
+
+    const budget = budgetField ? budgetField.value : "";
+
+    const timeline = timelineField ? timelineField.value : "";
+
+
+    // VALIDATION
 
     if (!name || !email || !service || !message) {
 
-      alert("Please complete all fields before submitting.");
+      alert("Please complete all required fields before submitting.");
 
       return;
 
     }
 
 
-    // Prepare the WhatsApp message
+    // EMAIL VALIDATION
 
-    const whatsappMessage =
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+
+      alert("Please enter a valid email address.");
+
+      return;
+
+    }
+
+
+    // BUILD WHATSAPP MESSAGE
+
+    let whatsappMessage =
 
       "Hello FOCUS PROFESSIONALS,\n\n" +
 
@@ -127,23 +184,40 @@ if (contactForm) {
 
       "Email: " + email + "\n" +
 
-      "Service Required: " + service + "\n\n" +
+      "Service Required: " + service + "\n";
 
-      "Project Details:\n" + message + "\n\n" +
 
-      "I look forward to hearing from you.\n\n" +
+    if (budget) {
+
+      whatsappMessage += "Estimated Budget: " + budget + "\n";
+
+    }
+
+
+    if (timeline) {
+
+      whatsappMessage += "Expected Timeline: " + timeline + "\n";
+
+    }
+
+
+    whatsappMessage +=
+
+      "\nProject Details:\n" +
+
+      message +
+
+      "\n\nI look forward to hearing from you.\n\n" +
 
       "Thank you.";
 
 
-    // Encode message for WhatsApp
+    // ENCODE MESSAGE
 
-    const encodedMessage = encodeURIComponent(
-      whatsappMessage
-    );
+    const encodedMessage = encodeURIComponent(whatsappMessage);
 
 
-    // Open direct WhatsApp conversation
+    // OPEN WHATSAPP
 
     const whatsappURL =
 
@@ -157,32 +231,29 @@ if (contactForm) {
 
 
     window.open(
+
       whatsappURL,
+
       "_blank",
+
       "noopener,noreferrer"
+
     );
 
   });
 
 }
+
+
 // ==========================================
 // CLOSE MOBILE MENU WITH ESCAPE KEY
 // ==========================================
 
 document.addEventListener("keydown", function (event) {
 
-  if (event.key === "Escape" && navLinks && menuToggle) {
+  if (event.key === "Escape") {
 
-    navLinks.classList.remove("active");
-
-    menuToggle.textContent = "☰";
-
-    menuToggle.setAttribute("aria-expanded", "false");
-
-    menuToggle.setAttribute(
-      "aria-label",
-      "Open navigation"
-    );
+    closeMobileMenu();
 
   }
 
@@ -195,9 +266,7 @@ document.addEventListener("keydown", function (event) {
 
 document.addEventListener("click", function (event) {
 
-  if (!navLinks || !menuToggle) {
-    return;
-  }
+  if (!navLinks || !menuToggle) return;
 
   const clickedInsideMenu = navLinks.contains(event.target);
 
@@ -205,16 +274,7 @@ document.addEventListener("click", function (event) {
 
   if (!clickedInsideMenu && !clickedMenuButton) {
 
-    navLinks.classList.remove("active");
-
-    menuToggle.textContent = "☰";
-
-    menuToggle.setAttribute("aria-expanded", "false");
-
-    menuToggle.setAttribute(
-      "aria-label",
-      "Open navigation"
-    );
+    closeMobileMenu();
 
   }
 
@@ -227,18 +287,9 @@ document.addEventListener("click", function (event) {
 
 window.addEventListener("resize", function () {
 
-  if (window.innerWidth > 760 && navLinks && menuToggle) {
+  if (window.innerWidth > 760) {
 
-    navLinks.classList.remove("active");
-
-    menuToggle.textContent = "☰";
-
-    menuToggle.setAttribute("aria-expanded", "false");
-
-    menuToggle.setAttribute(
-      "aria-label",
-      "Open navigation"
-    );
+    closeMobileMenu();
 
   }
 
@@ -250,7 +301,7 @@ window.addEventListener("resize", function () {
 // ==========================================
 
 console.log(
-  "FOCUS PROFESSIONALS website loaded successfully."
+  "FOCUS PROFESSIONALS 2.0 website loaded successfully."
 );
 
 console.log(
