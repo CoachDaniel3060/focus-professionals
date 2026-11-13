@@ -17,47 +17,29 @@ const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.getElementById("navLinks");
 
 function closeMobileMenu() {
-
   if (!navLinks || !menuToggle) return;
 
   navLinks.classList.remove("active");
-
   menuToggle.textContent = "☰";
-
   menuToggle.setAttribute("aria-expanded", "false");
-
   menuToggle.setAttribute("aria-label", "Open navigation");
-
 }
 
-
 if (menuToggle && navLinks) {
-
   menuToggle.addEventListener("click", function () {
-
     const isOpen = navLinks.classList.toggle("active");
 
     menuToggle.textContent = isOpen ? "✕" : "☰";
-
-    menuToggle.setAttribute(
-      "aria-expanded",
-      String(isOpen)
-    );
-
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
     menuToggle.setAttribute(
       "aria-label",
       isOpen ? "Close navigation" : "Open navigation"
     );
-
   });
-
 
   navLinks.querySelectorAll("a").forEach(function (link) {
-
     link.addEventListener("click", closeMobileMenu);
-
   });
-
 }
 
 
@@ -68,9 +50,7 @@ if (menuToggle && navLinks) {
 const currentYear = document.getElementById("currentYear");
 
 if (currentYear) {
-
   currentYear.textContent = new Date().getFullYear();
-
 }
 
 
@@ -81,24 +61,17 @@ if (currentYear) {
 const packageButtons = document.querySelectorAll("[data-package]");
 
 packageButtons.forEach(function (button) {
-
   button.addEventListener("click", function () {
-
     const packageName = button.getAttribute("data-package");
-
     const messageField = document.getElementById("contactMessage");
 
     if (messageField && packageName && !messageField.value.trim()) {
-
       messageField.value =
         "I am interested in the " +
         packageName +
         " package. Please provide more information.";
-
     }
-
   });
-
 });
 
 
@@ -109,139 +82,60 @@ packageButtons.forEach(function (button) {
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
-
   contactForm.addEventListener("submit", function (event) {
-
     event.preventDefault();
 
-
-    // REQUIRED FIELDS
-
-    const name = document
-      .getElementById("contactName")
-      .value
-      .trim();
-
-    const email = document
-      .getElementById("contactEmail")
-      .value
-      .trim();
-
-    const service = document
-      .getElementById("contactService")
-      .value;
-
-    const message = document
-      .getElementById("contactMessage")
-      .value
-      .trim();
-
-
-    // OPTIONAL FIELDS
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const service = document.getElementById("contactService").value;
+    const message = document.getElementById("contactMessage").value.trim();
 
     const budgetField = document.getElementById("contactBudget");
-
     const timelineField = document.getElementById("contactTimeline");
 
     const budget = budgetField ? budgetField.value : "";
-
     const timeline = timelineField ? timelineField.value : "";
 
-
-    // VALIDATION
-
     if (!name || !email || !service || !message) {
-
       alert("Please complete all required fields before submitting.");
-
       return;
-
     }
-
-
-    // EMAIL VALIDATION
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
-
       alert("Please enter a valid email address.");
-
       return;
-
     }
-
-
-    // BUILD WHATSAPP MESSAGE
 
     let whatsappMessage =
-
       "Hello FOCUS PROFESSIONALS,\n\n" +
-
       "I would like to make a project enquiry.\n\n" +
-
       "Name: " + name + "\n" +
-
       "Email: " + email + "\n" +
-
       "Service Required: " + service + "\n";
 
-
     if (budget) {
-
       whatsappMessage += "Estimated Budget: " + budget + "\n";
-
     }
-
 
     if (timeline) {
-
       whatsappMessage += "Expected Timeline: " + timeline + "\n";
-
     }
 
-
     whatsappMessage +=
-
       "\nProject Details:\n" +
-
       message +
-
-      "\n\nI look forward to hearing from you.\n\n" +
-
-      "Thank you.";
-
-
-    // ENCODE MESSAGE
-
-    const encodedMessage = encodeURIComponent(whatsappMessage);
-
-
-    // OPEN WHATSAPP
+      "\n\nI look forward to hearing from you.\n\nThank you.";
 
     const whatsappURL =
-
       "https://wa.me/" +
-
       WHATSAPP_NUMBER +
-
       "?text=" +
+      encodeURIComponent(whatsappMessage);
 
-      encodedMessage;
-
-
-    window.open(
-
-      whatsappURL,
-
-      "_blank",
-
-      "noopener,noreferrer"
-
-    );
-
+    window.open(whatsappURL, "_blank", "noopener,noreferrer");
   });
-
 }
 
 
@@ -250,13 +144,9 @@ if (contactForm) {
 // ==========================================
 
 document.addEventListener("keydown", function (event) {
-
   if (event.key === "Escape") {
-
     closeMobileMenu();
-
   }
-
 });
 
 
@@ -265,19 +155,14 @@ document.addEventListener("keydown", function (event) {
 // ==========================================
 
 document.addEventListener("click", function (event) {
-
   if (!navLinks || !menuToggle) return;
 
   const clickedInsideMenu = navLinks.contains(event.target);
-
   const clickedMenuButton = menuToggle.contains(event.target);
 
   if (!clickedInsideMenu && !clickedMenuButton) {
-
     closeMobileMenu();
-
   }
-
 });
 
 
@@ -286,32 +171,16 @@ document.addEventListener("click", function (event) {
 // ==========================================
 
 window.addEventListener("resize", function () {
-
   if (window.innerWidth > 760) {
-
     closeMobileMenu();
-
   }
-
 });
 
 
 // ==========================================
-// WEBSITE INITIALIZATION
+// FOCUS PROFESSIONALS CHAT ASSISTANT
+// FREE SCRIPTED BUSINESS SUPPORT
 // ==========================================
-
-console.log(
-  "FOCUS PROFESSIONALS 2.0 website loaded successfully."
-);
-
-console.log(
-  "WhatsApp contact:",
-  WHATSAPP_NUMBER
-);
-/* ==========================================
-   FOCUS PROFESSIONALS FREE CHAT ASSISTANT
-   Scripted business support — no API required
-   ========================================== */
 
 (function () {
   "use strict";
@@ -324,10 +193,21 @@ console.log(
   const input = document.getElementById("fpChatInput");
   const options = document.getElementById("fpChatOptions");
 
-  if (!toggle || !close || !windowBox || !messages || !form || !input || !options) {
+  if (!toggle || !close || !windowBox || !messages ||
+      !form || !input || !options) {
     return;
   }
 
+  // ENQUIRY INFORMATION
+  let enquiryStep = 0;
+
+  let enquiryDetails = {
+    name: "",
+    service: "",
+    project: ""
+  };
+
+  // OPEN CHAT
   function openChat() {
     windowBox.classList.add("active");
     windowBox.setAttribute("aria-hidden", "false");
@@ -335,6 +215,7 @@ console.log(
     input.focus();
   }
 
+  // CLOSE CHAT
   function closeChat() {
     windowBox.classList.remove("active");
     windowBox.setAttribute("aria-hidden", "true");
@@ -351,14 +232,56 @@ console.log(
 
   close.addEventListener("click", closeChat);
 
+  // DISPLAY CHAT MESSAGE SAFELY
   function addMessage(message, sender) {
     const bubble = document.createElement("div");
+
     bubble.className = "fp-chat-message " + sender;
     bubble.textContent = message;
+
     messages.appendChild(bubble);
     messages.scrollTop = messages.scrollHeight;
   }
 
+  // RESET ENQUIRY
+  function resetEnquiry() {
+    enquiryStep = 0;
+
+    enquiryDetails = {
+      name: "",
+      service: "",
+      project: ""
+    };
+  }
+
+  // PREPARE WHATSAPP ENQUIRY
+  function sendProjectEnquiry() {
+    const whatsappMessage =
+      "NEW PROJECT ENQUIRY - FOCUS PROFESSIONALS\n\n" +
+      "Customer Name: " + enquiryDetails.name + "\n" +
+      "Service Required: " + enquiryDetails.service + "\n" +
+      "Project Description: " + enquiryDetails.project + "\n\n" +
+      "Sent through the FOCUS PROFESSIONALS website assistant.";
+
+    const whatsappURL =
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      encodeURIComponent(whatsappMessage);
+
+    addMessage(
+      "Thank you for providing your project details!\n\n" +
+      "Your enquiry is ready. WhatsApp will open so you can review " +
+      "the message and send it to our team.",
+      "assistant"
+    );
+
+    resetEnquiry();
+
+    window.open(whatsappURL, "_blank", "noopener,noreferrer");
+  }
+
+  // EXISTING BUSINESS ANSWERS
   function getReply(question) {
     const text = question.toLowerCase();
 
@@ -376,7 +299,13 @@ console.log(
       text.includes("what do you do") ||
       text.includes("offer")
     ) {
-      return "FOCUS PROFESSIONALS provides:\n\n• Website and web application development\n• E-commerce solutions\n• Cloud solutions and engineering\n• AI automation\n• Digital business systems\n\nWhich service would you like to discuss?";
+      return "FOCUS PROFESSIONALS provides:\n\n" +
+        "• Website and web application development\n" +
+        "• E-commerce solutions\n" +
+        "• Cloud solutions and engineering\n" +
+        "• AI automation\n" +
+        "• Digital business systems\n\n" +
+        "Which service would you like to discuss?";
     }
 
     if (
@@ -385,7 +314,11 @@ console.log(
       text.includes("price") ||
       text.includes("cost")
     ) {
-      return "We offer three service packages on our website. Our projects are quotation-based, so the cost depends on your requirements.\n\nVisit our Packages section to explore the options, or request a quotation through our contact form.";
+      return "We offer three service packages on our website. " +
+        "Our projects are quotation-based, so the cost depends " +
+        "on your requirements.\n\n" +
+        "Visit our Packages section to explore the options, " +
+        "or request a quotation through our assistant.";
     }
 
     if (
@@ -394,7 +327,8 @@ console.log(
       text.includes("hire") ||
       text.includes("start a project")
     ) {
-      return "We would be happy to discuss your project!\n\nPlease visit the Contact section of our website and complete the project enquiry form. Include your requirements so our team can understand what you need.";
+      return "We would be happy to discuss your project! " +
+        "I can collect a few details and prepare a WhatsApp enquiry for you.";
     }
 
     if (
@@ -403,7 +337,10 @@ console.log(
       text.includes("phone") ||
       text.includes("email")
     ) {
-      return "You can reach FOCUS PROFESSIONALS through:\n\nWhatsApp: +233 204 402 577\nEmail: focusprofessionals1@gmail.com\n\nOur team will be happy to hear from you.";
+      return "You can reach FOCUS PROFESSIONALS through:\n\n" +
+        "WhatsApp: +233 204 402 577\n" +
+        "Email: focusprofessionals1@gmail.com\n\n" +
+        "Our team will be happy to hear from you.";
     }
 
     if (
@@ -411,7 +348,9 @@ console.log(
       text.includes("where are you") ||
       text.includes("country")
     ) {
-      return "FOCUS PROFESSIONALS is based in Ghana and provides digital services to clients beyond Ghana. Please contact our team for more information.";
+      return "FOCUS PROFESSIONALS is based in Ghana and provides " +
+        "digital services to clients beyond Ghana. " +
+        "Please contact our team for more information.";
     }
 
     if (
@@ -419,30 +358,112 @@ console.log(
       text.includes("projects") ||
       text.includes("work")
     ) {
-      return "You can explore our completed and featured projects in the Portfolio section of our website.";
+      return "You can explore our completed and featured projects " +
+        "in the Portfolio section of our website.";
     }
 
-    if (
-      text.includes("thank")
-    ) {
+    if (text.includes("thank")) {
       return "You're welcome! Thank you for considering FOCUS PROFESSIONALS.";
     }
 
-    return "Thank you for your question. I may not have that information yet.\n\nPlease contact our team through WhatsApp at +233 204 402 577 or email focusprofessionals1@gmail.com for assistance.";
+    return "Thank you for your question. I may not have that information yet.\n\n" +
+      "Please contact our team through WhatsApp at +233 204 402 577 " +
+      "or email focusprofessionals1@gmail.com for assistance.";
   }
 
+  // HANDLE CUSTOMER QUESTIONS AND ENQUIRIES
   function handleQuestion(question) {
     const cleanQuestion = question.trim();
 
     if (!cleanQuestion) return;
 
+    const text = cleanQuestion.toLowerCase();
+
     addMessage(cleanQuestion, "user");
 
-    const reply = getReply(cleanQuestion);
+    // ALLOW CUSTOMER TO CANCEL AN ENQUIRY
+    if (
+      enquiryStep > 0 &&
+      (text === "cancel" || text === "stop" || text === "start over")
+    ) {
+      resetEnquiry();
 
-    addMessage(reply, "assistant");
+      addMessage(
+        "Your project enquiry has been cancelled. " +
+        "You can start a new enquiry whenever you're ready.",
+        "assistant"
+      );
+
+      return;
+    }
+
+    // START ENQUIRY
+    if (enquiryStep === 0) {
+      if (
+        text.includes("quotation") ||
+        text.includes("quote") ||
+        text.includes("hire") ||
+        text.includes("start a project")
+      ) {
+        enquiryStep = 1;
+
+        addMessage(
+          "Excellent! Let's prepare your project enquiry.\n\n" +
+          "First, what is your full name?",
+          "assistant"
+        );
+
+        return;
+      }
+
+      addMessage(getReply(cleanQuestion), "assistant");
+      return;
+    }
+
+    // COLLECT CUSTOMER NAME
+    if (enquiryStep === 1) {
+      if (cleanQuestion.length < 2) {
+        addMessage("Please enter your name so we can continue.", "assistant");
+        return;
+      }
+
+      enquiryDetails.name = cleanQuestion;
+      enquiryStep = 2;
+
+      addMessage(
+        "Thank you, " + enquiryDetails.name + "!\n\n" +
+        "Which service are you interested in?\n\n" +
+        "For example: Website Development, E-commerce, " +
+        "Cloud Solutions or AI Automation.",
+        "assistant"
+      );
+
+      return;
+    }
+
+    // COLLECT SERVICE
+    if (enquiryStep === 2) {
+      enquiryDetails.service = cleanQuestion;
+      enquiryStep = 3;
+
+      addMessage(
+        "Great! Now briefly describe the project you want " +
+        "us to build or help you with.",
+        "assistant"
+      );
+
+      return;
+    }
+
+    // COLLECT PROJECT DESCRIPTION
+    if (enquiryStep === 3) {
+      enquiryDetails.project = cleanQuestion;
+
+      sendProjectEnquiry();
+    }
   }
 
+  // CHAT FORM SUBMISSION
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -451,10 +472,12 @@ console.log(
     if (!question) return;
 
     handleQuestion(question);
+
     input.value = "";
     input.focus();
   });
 
+  // QUICK QUESTION BUTTONS
   options.addEventListener("click", function (event) {
     const button = event.target.closest("[data-question]");
 
@@ -475,4 +498,19 @@ console.log(
   });
 
   console.log("FOCUS PROFESSIONALS Chat Assistant is ready.");
+
 })();
+
+
+// ==========================================
+// WEBSITE INITIALIZATION
+// ==========================================
+
+console.log(
+  "FOCUS PROFESSIONALS 2.0 website loaded successfully."
+);
+
+console.log(
+  "WhatsApp contact:",
+  WHATSAPP_NUMBER
+);
